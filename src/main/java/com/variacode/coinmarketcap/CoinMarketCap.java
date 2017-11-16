@@ -337,7 +337,7 @@ public class CoinMarketCap {
 
     }
     
-    public List<Ticker> getTicker() throws CoinMarketCapException{
+    public static List<Ticker> getTicker() throws CoinMarketCapException{
         return getTicker(null, null);
     }
 

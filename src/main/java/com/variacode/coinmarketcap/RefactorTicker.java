@@ -7,9 +7,9 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class RefactorTicker {
 
@@ -200,22 +200,29 @@ public class RefactorTicker {
 
         if (limit <= 0) return new ArrayList<newTicker>();
 
-        List<CoinMarketCap.Ticker> tickerList = CoinMarketCap.getTicker(100, null);
+        List<CoinMarketCap.Ticker> tickerList = CoinMarketCap.getTicker(500, null);
 
-        PriorityQueue<newTicker> tickerQueue = new PriorityQueue<>(new Comparator<newTicker>() {
-            @Override
-            public int compare(newTicker o1, newTicker o2) {
-                MathContext mc = new MathContext(4); // 4 precision
+        System.out.println("The first try data size: " + tickerList.size());
+        System.out.println();
 
-                return (o1.peRatio.subtract(o2.peRatio, mc)).intValue();
-            }
-        });
+        List<newTicker> result = new ArrayList<>();
+
+//        PriorityQueue<newTicker> tickerQueue = new PriorityQueue<>(new Comparator<newTicker>() {
+//            @Override
+//            public int compare(newTicker o1, newTicker o2) {
+//                MathContext mc = new MathContext(10); // 4 precision
+//
+//                return (o1.peRatio.subtract(o2.peRatio, mc)).intValue();
+//            }
+//        });
 
         for (CoinMarketCap.Ticker oldTicker : tickerList) {
             BigDecimal cap = oldTicker.getMarketCapUsd();
             BigDecimal volume = oldTicker.get24hVolumeUsd();
 
-            BigDecimal peRatio = cap.divide(volume, 3, RoundingMode.CEILING);
+            if (cap == null || volume == null) continue;
+
+            BigDecimal peRatio = cap.divide(volume, 4, RoundingMode.CEILING);
 
             newTicker tickerWithPeRatio = new newTicker(oldTicker.getId(), oldTicker.getName(), oldTicker.getSymbol(),
                     oldTicker.getRank(), oldTicker.getPriceUsd(),
@@ -223,12 +230,20 @@ public class RefactorTicker {
                     oldTicker.getTotalSupply(), oldTicker.getPercentChange1h(), oldTicker.getPercentChange24h(),
                     oldTicker.getPercentChange7d(), oldTicker.getLastUpdated(), peRatio);
 
-            tickerQueue.add(tickerWithPeRatio);
+            result.add(tickerWithPeRatio);
         }
-        List<newTicker> result = new ArrayList<>();
+        Collections.sort(result, new Comparator<newTicker>(){
+
+            @Override
+            public int compare(newTicker o1, newTicker o2) {
+                MathContext mc = new MathContext(10);
+                return (o1.peRatio.subtract(o2.peRatio, mc)).intValue();
+            }
+        });
+        List<newTicker> res  = new ArrayList<>();
         for (int i = 0; i < limit; ++i) {
-            result.add(tickerQueue.poll());
+            res.add(result.get(i));
         }
-        return result;
+        return res;
     }
 }
