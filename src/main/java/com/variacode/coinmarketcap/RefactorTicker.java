@@ -226,11 +226,12 @@ public class RefactorTicker {
     }
   }
 
-  public List<newTicker> Refactor(int limit) throws CoinMarketCap.CoinMarketCapException {
+  public List<newTicker> Refactor(int limit)
+      throws CoinMarketCap.CoinMarketCapException {
 
     if (limit <= 0) return new ArrayList<newTicker>();
 
-    List<CoinMarketCap.Ticker> tickerList = CoinMarketCap.getTicker(500, null);
+    List<CoinMarketCap.Ticker> tickerList = CoinMarketCap.getTicker(2000, null);
 
     System.out.println("The first try data size: " + tickerList.size());
     System.out.println();

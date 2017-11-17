@@ -8,13 +8,13 @@ public class main {
 
     //        List<CoinMarketCap.Ticker> tickerList = CoinMarketCap.getTicker(2000, null);
 
-    List<RefactorTicker.newTicker> tickerList = new RefactorTicker().Refactor(200);
+    List<RefactorTicker.newTicker> tickerList = new RefactorTicker().Refactor(945);
 
-    System.out.println(tickerList.size());
-    System.out.println();
+    int count = 50;
 
     for (RefactorTicker.newTicker ticker : tickerList) {
-      if (ticker.getRank() > 200) continue;
+      if (count == 0) break;
+      if (ticker.getRank() > 150) continue;
       //            if (ticker == null) continue;
       System.out.println(
           ticker.getSymbol()
@@ -28,6 +28,8 @@ public class main {
               + ticker.getMarketCapUsd()
               + " "
               + ticker.getPeRatio());
+      if (ticker.getSymbol().equals("GAS")) System.out.println();
+      count--;
     }
   }
 }
