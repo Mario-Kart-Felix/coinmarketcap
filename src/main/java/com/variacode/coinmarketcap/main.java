@@ -12,7 +12,7 @@ public class main {
         boolean all = true;
         List<RefactorTicker.newTicker> tickerList = new RefactorTicker().Refactor(10, all);
 
-        int count = 45;
+        int count = 200;
 
         for (RefactorTicker.newTicker ticker : tickerList) {
             if (count == 0) break;
@@ -33,7 +33,9 @@ public class main {
                             + " "
                             + ticker.getPercentChange24h()
                             + "%");
+            if (ticker.getSymbol().equals("BTC")) System.out.println();
             if (ticker.getSymbol().equals("GAS")) System.out.println();
+            if (ticker.getSymbol().equals("NEO")) System.out.println();
             count--;
         }
     }
