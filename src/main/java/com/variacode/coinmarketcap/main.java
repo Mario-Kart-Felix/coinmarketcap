@@ -12,18 +12,20 @@ public class main {
         boolean all = true;
         List<RefactorTicker.newTicker> tickerList = new RefactorTicker().Refactor(10, all);
 
-        int count = 200;
+        int count = 100;
 
         for (RefactorTicker.newTicker ticker : tickerList) {
             if (count == 0) break;
-            //            if (ticker.getRank() > 150) continue;
-            //            if (ticker == null) continue;
-            BigDecimal capLimit = new BigDecimal(1000000);
-            BigDecimal volumeLimit = new BigDecimal(200000);
-            if (ticker.getMarketCapUsd().compareTo(capLimit) < 0) continue;
+                        if (ticker.getRank() > 155) continue;
+                        if (ticker == null) continue;
+//            BigDecimal capLimit = new BigDecimal(1000000);
+            BigDecimal volumeLimit = new BigDecimal(4701904);
+//            if (ticker.getMarketCapUsd().compareTo(capLimit) < 0) continue;
             if (ticker.get24hVolumeUsd().compareTo(volumeLimit) < 0) continue;
             if (ticker.getSymbol().equals("USDT")) continue;
-            if (ticker.getSymbol().equals("SBD")) continue;
+            if (ticker.getSymbol().equals("DAI")) continue;
+            if (ticker.getSymbol().equals("BITCNY")) continue;
+//            if (ticker.getSymbol().equals("SBD")) continue;
             System.out.println(
                     ticker.getPeRatio()
                             + " "
@@ -31,11 +33,10 @@ public class main {
                             + " "
                             + ticker.getRank()
                             + " "
-                            + ticker.getPercentChange24h()
-                            + "%");
-            if (ticker.getSymbol().equals("BTC")) System.out.println();
-            if (ticker.getSymbol().equals("GAS")) System.out.println();
-            if (ticker.getSymbol().equals("NEO")) System.out.println();
+                            + ticker.getPercentChange24h() + "%");
+//            if (ticker.getSymbol().equals("BTC")) System.out.println();
+//            if (ticker.getSymbol().equals("ETH")) System.out.println();
+//            if (ticker.getSymbol().equals("ENG")) System.out.println();
             count--;
         }
     }
